@@ -1,4 +1,4 @@
-# spry_health — dbt project
+# healthcare — dbt project
 
 Analytics-engineering project modeling an outpatient / physical-therapy clinic
 group on Snowflake. See the top-level `SETUP_GUIDE.md` for the full GCS →
