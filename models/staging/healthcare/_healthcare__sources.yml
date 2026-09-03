@@ -1,0 +1,66 @@
+version: 2
+
+sources:
+  - name: healthcare
+    description: >
+      Raw operational data landed from Google Cloud Storage into Snowflake
+      (SPRY_HEALTH.RAW). One outpatient / physical-therapy clinic group.
+    database: SPRY_HEALTH
+    schema: RAW
+    # To enable source freshness checks, add a load-timestamp column to the
+    # RAW tables (e.g. _loaded_at via COPY INTO metadata) and uncomment:
+    # config:
+    #   loaded_at_field: _loaded_at
+    #   freshness:
+    #     warn_after: {count: 24, period: hour}
+    #     error_after: {count: 48, period: hour}
+
+    tables:
+      - name: clinics
+        description: Physical clinic locations.
+        columns:
+          - name: clinic_id
+            description: Primary key.
+            data_tests: [unique, not_null]
+
+      - name: providers
+        description: Treating clinicians (PT, PTA, DPT, OT).
+        columns:
+          - name: provider_id
+            data_tests: [unique, not_null]
+
+      - name: payers
+        description: Insurance payers and self-pay.
+        columns:
+          - name: payer_id
+            data_tests: [unique, not_null]
+
+      - name: patients
+        description: Patient master.
+        columns:
+          - name: patient_id
+            data_tests: [unique, not_null]
+
+      - name: appointments
+        description: Scheduled and completed visits. Grain = one appointment.
+        columns:
+          - name: appointment_id
+            data_tests: [unique, not_null]
+          - name: patient_id
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('healthcare', 'patients')
+                  field: patient_id
+
+      - name: charges
+        description: Billed CPT charge lines. Grain = one charge line.
+        columns:
+          - name: charge_id
+            data_tests: [unique, not_null]
+
+      - name: payments
+        description: Payments/adjudications posted against charges.
+        columns:
+          - name: payment_id
+            data_tests: [unique, not_null]

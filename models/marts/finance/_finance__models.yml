@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: mart_monthly_revenue
+    description: >
+      Revenue-cycle summary by month and clinic: gross charges, payments,
+      outstanding AR, collection rate, and denied/unpaid rate.
+    columns:
+      - name: collection_rate_pct
+        data_tests:
+          - accepted_range:
+              min_value: 0
+              max_value: 100
+
+  - name: mart_payer_performance
+    description: >
+      Payer scorecard: realized vs. expected collection rate, denial rate,
+      average days to payment, and outstanding AR.
+    columns:
+      - name: payer_id
+        data_tests: [unique, not_null]
+      - name: denial_rate_pct
+        data_tests:
+          - accepted_range:
+              min_value: 0
+              max_value: 100

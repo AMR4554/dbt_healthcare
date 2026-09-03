@@ -1,0 +1,45 @@
+name: 'spry_health'
+version: '1.0.0'
+config-version: 2
+
+# This profile must exist in ~/.dbt/profiles.yml (see profiles.example.yml)
+profile: 'spry_health'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# ---------------------------------------------------------------------------
+# Model configuration.
+#   staging   -> views in the STAGING schema (cheap, always fresh)
+#   intermediate -> ephemeral (compiled inline, not materialized)
+#   marts     -> tables in the ANALYTICS schema (fast for BI / reuse)
+# ---------------------------------------------------------------------------
+models:
+  spry_health:
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table
+      +schema: analytics
+
+seeds:
+  spry_health:
+    +schema: analytics
+    ref_cpt_codes:
+      +column_types:
+        cpt_code: varchar
+    ref_icd10_codes:
+      +column_types:
+        icd10_code: varchar

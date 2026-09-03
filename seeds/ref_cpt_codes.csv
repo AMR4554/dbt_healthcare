@@ -1,0 +1,9 @@
+cpt_code,cpt_description,standard_charge
+97110,Therapeutic exercise,45.0
+97112,Neuromuscular reeducation,48.0
+97140,Manual therapy,42.0
+97530,Therapeutic activities,50.0
+97161,PT evaluation low complexity,120.0
+97162,PT evaluation mod complexity,145.0
+97035,Ultrasound therapy,28.0
+97014,Electrical stimulation,25.0

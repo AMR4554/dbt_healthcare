@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: mart_clinic_utilization
+    description: >
+      Clinic operational scorecard by month: volume, completion rate,
+      no-show and cancellation rates.
+    columns:
+      - name: no_show_rate_pct
+        data_tests:
+          - accepted_range:
+              min_value: 0
+              max_value: 100
+
+  - name: mart_provider_productivity
+    description: >
+      Provider scorecard: completed visits, unique patients, charges,
+      revenue collected, and revenue per completed visit.
+    columns:
+      - name: provider_id
+        data_tests: [unique, not_null]

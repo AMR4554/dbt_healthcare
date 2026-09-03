@@ -1,0 +1,7 @@
+target/
+dbt_packages/
+logs/
+.user.yml
+# credentials never belong in the repo
+profiles.yml          # CLI profile with secrets (dbt_projects_profiles.yml is safe to commit)
+.env

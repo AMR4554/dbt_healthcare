@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: stg_healthcare__clinics
+    description: One row per clinic location, lightly cleaned.
+    columns:
+      - name: clinic_id
+        description: Primary key.
+        data_tests: [unique, not_null]
+
+  - name: stg_healthcare__providers
+    description: One row per clinician, with full name and active flag derived.
+    columns:
+      - name: provider_id
+        data_tests: [unique, not_null]
+      - name: is_active
+        description: True when provider_status = 'active'.
+        data_tests: [not_null]
+
+  - name: stg_healthcare__payers
+    description: Insurance payers and self-pay, with expected collection rate.
+    columns:
+      - name: payer_id
+        data_tests: [unique, not_null]
+      - name: payer_type
+        data_tests:
+          - accepted_values:
+              values: ['commercial','government','workers_comp','self_pay']
+
+  - name: stg_healthcare__patients
+    description: Patient master with derived age.
+    columns:
+      - name: patient_id
+        data_tests: [unique, not_null]
+      - name: primary_payer_id
+        data_tests:
+          - relationships:
+              to: ref('stg_healthcare__payers')
+              field: payer_id
+
+  - name: stg_healthcare__appointments
+    description: One row per appointment with status booleans.
+    columns:
+      - name: appointment_id
+        data_tests: [unique, not_null]
+      - name: appointment_status
+        data_tests:
+          - accepted_values:
+              values: ['completed','no_show','cancelled','scheduled']
+      - name: patient_id
+        data_tests:
+          - relationships:
+              to: ref('stg_healthcare__patients')
+              field: patient_id
+      - name: provider_id
+        data_tests:
+          - relationships:
+              to: ref('stg_healthcare__providers')
+              field: provider_id
+
+  - name: stg_healthcare__charges
+    description: One row per billed CPT charge line.
+    columns:
+      - name: charge_id
+        data_tests: [unique, not_null]
+      - name: charge_amount
+        description: Billed amount for the line (units * standard charge).
+        data_tests:
+          - accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: appointment_id
+        data_tests:
+          - relationships:
+              to: ref('stg_healthcare__appointments')
+              field: appointment_id
+
+  - name: stg_healthcare__payments
+    description: One row per payment posted against a charge line.
+    columns:
+      - name: payment_id
+        data_tests: [unique, not_null]
+      - name: charge_id
+        data_tests:
+          - relationships:
+              to: ref('stg_healthcare__charges')
+              field: charge_id

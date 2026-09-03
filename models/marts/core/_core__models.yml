@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Calendar date dimension (2024-2026).
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+
+  - name: dim_patients
+    description: Patient dimension with age band, primary clinic and payer.
+    columns:
+      - name: patient_id
+        data_tests: [unique, not_null]
+      - name: age_band
+        data_tests:
+          - accepted_values:
+              values: ['0-17','18-34','35-49','50-64','65+']
+
+  - name: dim_providers
+    description: Provider dimension with credential and home clinic.
+    columns:
+      - name: provider_id
+        data_tests: [unique, not_null]
+
+  - name: dim_clinics
+    description: Clinic dimension.
+    columns:
+      - name: clinic_id
+        data_tests: [unique, not_null]
+
+  - name: dim_payers
+    description: Payer dimension with contractual expected collection rate.
+    columns:
+      - name: payer_id
+        data_tests: [unique, not_null]
+
+  - name: fct_appointments
+    description: One row per appointment with billing rollup and dim keys.
+    columns:
+      - name: appointment_id
+        data_tests: [unique, not_null]
+      - name: patient_id
+        data_tests:
+          - relationships:
+              to: ref('dim_patients')
+              field: patient_id
+      - name: provider_id
+        data_tests:
+          - relationships:
+              to: ref('dim_providers')
+              field: provider_id
+      - name: clinic_id
+        data_tests:
+          - relationships:
+              to: ref('dim_clinics')
+              field: clinic_id
+
+  - name: fct_charges
+    description: One row per charge line with payment outcome and dim keys.
+    columns:
+      - name: charge_id
+        data_tests: [unique, not_null]
+      - name: charge_amount
+        data_tests:
+          - accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: payer_id
+        data_tests:
+          - relationships:
+              to: ref('dim_payers')
+              field: payer_id

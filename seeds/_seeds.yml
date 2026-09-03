@@ -1,0 +1,14 @@
+version: 2
+
+seeds:
+  - name: ref_cpt_codes
+    description: Reference lookup of CPT procedure codes used by the clinics.
+    columns:
+      - name: cpt_code
+        data_tests: [unique, not_null]
+
+  - name: ref_icd10_codes
+    description: Reference lookup of ICD-10 diagnosis codes.
+    columns:
+      - name: icd10_code
+        data_tests: [unique, not_null]

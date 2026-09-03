@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------
+# dbt_projects_profiles.yml for dbt Projects ON SNOWFLAKE (Workspaces / EXECUTE DBT PROJECT)
+#
+# Unlike dbt Core, this runs INSIDE Snowflake under your current session, so
+# account / user / password are NOT used -- leave them as placeholders.
+# The profile name (spry_health) must match `profile:` in dbt_project.yml.
+# ---------------------------------------------------------------------------
+spry_health:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: not_used        # ignored: runs under current Snowflake session
+      user: not_used           # ignored
+      role: TRANSFORMER        # switch to ACCOUNTADMIN if you hit privilege errors
+      database: SPRY_HEALTH
+      schema: STAGING          # default schema dbt builds into
+      warehouse: TRANSFORMING_WH
+      threads: 8
