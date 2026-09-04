@@ -18,7 +18,7 @@ spry_health:
 
       role: TRANSFORMER
       warehouse: TRANSFORMING_WH
-      database: SPRY_HEALTH
+      database: HEALTH
       schema: STAGING          # dbt writes dev models under this schema by default
       threads: 4
       client_session_keep_alive: False

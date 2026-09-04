@@ -1,9 +1,9 @@
-name: 'spry_health'
+name: 'health'
 version: '1.0.0'
 config-version: 2
 
 # This profile must exist in ~/.dbt/profiles.yml (see profiles.example.yml)
-profile: 'spry_health'
+profile: 'health'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
