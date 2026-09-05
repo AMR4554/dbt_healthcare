@@ -9,7 +9,6 @@ select
     patient_id,
     provider_id,
     clinic_id,
-    primary_payer_id        as payer_id,
 
     appointment_type,
     appointment_status,
