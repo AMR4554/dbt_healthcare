@@ -11,7 +11,6 @@ renamed as (
         {{ patient_age('date_of_birth') }}  as age,
         upper(sex)                          as sex,
         primary_clinic_id,
-        primary_payer_id,
         first_visit_date
     from source
 )

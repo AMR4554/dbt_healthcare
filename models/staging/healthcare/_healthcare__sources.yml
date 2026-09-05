@@ -53,7 +53,7 @@ sources:
                   to: source('healthcare', 'patients')
                   field: patient_id
 
-      - name: charges
+      - name: charge
         description: Billed CPT charge lines. Grain = one charge line.
         columns:
           - name: charge_id
