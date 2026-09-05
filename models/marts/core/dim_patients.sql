@@ -6,10 +6,6 @@ clinics as (
     select clinic_id, clinic_name from {{ ref('stg_healthcare__clinics') }}
 ),
 
-payers as (
-    select payer_id, payer_name, payer_type from {{ ref('stg_healthcare__payers') }}
-),
-
 final as (
     select
         p.patient_id,
@@ -25,12 +21,9 @@ final as (
         end                         as age_band,
         p.sex,
         p.first_visit_date,
-        c.clinic_name               as primary_clinic,
-        pay.payer_name              as primary_payer,
-        pay.payer_type              as primary_payer_type
+        c.clinic_name               as primary_clinic
     from patients p
     left join clinics c on p.primary_clinic_id = c.clinic_id
-    left join payers pay on p.primary_payer_id = pay.payer_id
 )
 
 select * from final

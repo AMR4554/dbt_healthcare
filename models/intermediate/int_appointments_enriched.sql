@@ -8,7 +8,7 @@ with appointments as (
 ),
 
 patients as (
-    select patient_id, primary_payer_id, age, sex
+    select patient_id, age, sex
     from {{ ref('stg_healthcare__patients') }}
 ),
 
@@ -39,7 +39,7 @@ final as (
 
         pt.age                                  as patient_age,
         pt.sex                                  as patient_sex,
-        pt.primary_payer_id,
+       
 
         coalesce(cr.charge_line_count, 0)       as charge_line_count,
         coalesce(cr.total_charged, 0)           as total_charged,
