@@ -4,7 +4,7 @@ sources:
   - name: healthcare
     description: >
       Raw operational data landed from Google Cloud Storage into Snowflake
-      (SPRY_HEALTH.RAW). One outpatient / physical-therapy clinic group.
+      (HEALTH.RAW). One outpatient / physical-therapy clinic group.
     database: HEALTH
     schema: RAW
     # To enable source freshness checks, add a load-timestamp column to the
@@ -53,8 +53,9 @@ sources:
                   to: source('healthcare', 'patients')
                   field: patient_id
 
-      - name: charge
+      - name: charges
         description: Billed CPT charge lines. Grain = one charge line.
+        identifier: CHARGE
         columns:
           - name: charge_id
             data_tests: [unique, not_null]
