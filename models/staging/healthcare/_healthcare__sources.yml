@@ -5,7 +5,7 @@ sources:
     description: >
       Raw operational data landed from Google Cloud Storage into Snowflake
       (SPRY_HEALTH.RAW). One outpatient / physical-therapy clinic group.
-    database: SPRY_HEALTH
+    database: HEALTH
     schema: RAW
     # To enable source freshness checks, add a load-timestamp column to the
     # RAW tables (e.g. _loaded_at via COPY INTO metadata) and uncomment:
