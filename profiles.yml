@@ -5,7 +5,7 @@ health:
       type: snowflake
       account: NRNGLTJ-ST65918
       user: ABHIDATAANALYTIC
-      password: Abhishekhingmire9721
+      password: 
       role: ACCOUNTADMIN
       database: HEALTH
       warehouse: TRANSFORMING_WH
