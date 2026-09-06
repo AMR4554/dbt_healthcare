@@ -2,7 +2,7 @@ name: 'health'
 version: '1.0.0'
 config-version: 2
 
-# This profile must exist in ~/.dbt/profiles.yml (see profiles.example.yml)
+# This profile must exist in ~/.dbt/profiles.yml
 profile: 'health'
 
 model-paths: ["models"]
@@ -19,27 +19,31 @@ clean-targets:
 
 # ---------------------------------------------------------------------------
 # Model configuration.
-#   staging   -> views in the STAGING schema (cheap, always fresh)
-#   intermediate -> ephemeral (compiled inline, not materialized)
-#   marts     -> tables in the ANALYTICS schema (fast for BI / reuse)
+#   staging      -> views in the STAGING schema
+#   intermediate -> ephemeral
+#   marts        -> tables in the ANALYTICS schema
 # ---------------------------------------------------------------------------
 models:
-  spry_health:
+  health:
     staging:
       +materialized: view
       +schema: staging
+
     intermediate:
       +materialized: ephemeral
+
     marts:
       +materialized: table
       +schema: analytics
 
 seeds:
-  spry_health:
+  health:
     +schema: analytics
+
     ref_cpt_codes:
       +column_types:
         cpt_code: varchar
+
     ref_icd10_codes:
       +column_types:
         icd10_code: varchar
